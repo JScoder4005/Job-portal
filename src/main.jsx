@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       publishableKey={PUBLISHABLE_KEY}
       afterSignOutUrl="/"
     >
-      <App />
+      <App />a
     </ClerkProvider>
   </React.StrictMode>
 );

@@ -3,7 +3,6 @@ import { useUser } from '@clerk/clerk-react';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -23,6 +22,8 @@ const JobCard = ({
 }) => {
   const [saved, setSaved] = useState(savedInit);
 
+  // console.log({ data: savedJob, loading: loadingSavedJob });
+
   const {
     fn: fnSavedJob,
     data: savedJob,
@@ -31,12 +32,33 @@ const JobCard = ({
 
   const { user } = useUser();
 
+  // const handleSavedJOb = async () => {
+  //   await fnSavedJob({
+  //     user_id: user.id,
+  //     job_id: job.id,
+  //   });
+  //   onJobSaved();
+  // };
+
   const handleSavedJOb = async () => {
-    await fnSavedJob({
-      user_id: user.id,
-      job_id: job.id,
-    });
-    onJobSaved();
+    try {
+      const { data, error } = await fnSavedJob({
+        user_id: user.id,
+        job_id: job.id,
+      });
+
+      if (error) {
+        console.error('Error saving job:', error.message || error);
+        return;
+      }
+
+      if (data) {
+        setSaved(true);
+        onJobSaved();
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+    }
   };
 
   useEffect(() => {
