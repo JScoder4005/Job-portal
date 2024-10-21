@@ -77,3 +77,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* for markdown stlying in job page */
+.wmde-markdown ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  color: white;
+}
