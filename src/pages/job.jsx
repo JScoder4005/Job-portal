@@ -1,4 +1,5 @@
 import { getSingleJob, updateHiringStatus } from '@/api/apiJobs';
+import ApplicationCard from '@/components/application-card';
 import ApplyJobDrawer from '@/components/apply-job';
 import {
   Select,
@@ -43,6 +44,8 @@ const JobPage = () => {
     return <BarLoader className="mb-4" width={'100%'} color="36d7b7" />;
   }
 
+  console.log({ applications: job?.applications });
+
   return (
     <div className="flex flex-col gap-8 mt-5">
       <div className="flex flex-col-reverse gap-6 md:flex-row justify-between items-center">
@@ -58,8 +61,7 @@ const JobPage = () => {
           {job?.location}
         </div>
         <div className="flex gap-2">
-          <Briefcase />
-          {job?.applications.length}
+          <Briefcase /> {job?.applications?.length} Applicants
         </div>
         <div className="flex gap-2">
           {job?.isOpen ? (
@@ -112,6 +114,17 @@ const JobPage = () => {
           fetchJob={fnjob}
           applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
         />
+      )}
+
+      {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-bold">Applications</h2>
+          {job?.applications.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
       )}
     </div>
   );
